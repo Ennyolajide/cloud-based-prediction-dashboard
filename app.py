@@ -27,6 +27,8 @@ db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind
 login_manager = LoginManager()
 login_manager.init_app(app)
 
+login_manager.login_view = 'login'
+
 
 #Load data and train model
 file = 'wfp_food_prices_nga.csv'
@@ -52,7 +54,7 @@ def home():
 
 # Dashboard route
 @app.route('/dashboard', methods=['GET'])
-# @login_required
+@login_required
 def dashboard():
     return render_template('dashboard.html')
 

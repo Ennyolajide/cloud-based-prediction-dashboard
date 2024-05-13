@@ -1,6 +1,7 @@
 import pandas as pd
 from models import User, Data 
 from utils.common import train_model
+from flask_login import current_user
 
 def load_and_process_db_data(user_data):
     # Check if user_data is not None and not empty
@@ -31,8 +32,8 @@ def get_trained_model(data):
     return train_model(data)
 
 def get_logged_in_user(db_session):
-    # user = current_user
-    return db_session.query(User).get(2)
+    user = current_user
+    return db_session.query(User).get(int(user.id))
 
 def get_and_load_user_data(db_session):
     user = get_logged_in_user(db_session)

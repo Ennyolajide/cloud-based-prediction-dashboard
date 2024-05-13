@@ -2,7 +2,7 @@
 from models import User
 from forms import SignupForm, LoginForm
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import  LoginManager, login_user, logout_user, login_required, current_user
+from flask_login import login_user, logout_user, login_required, current_user
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 
 def auth_blueprint(login_manager,db_session):
@@ -11,20 +11,22 @@ def auth_blueprint(login_manager,db_session):
     #User loader function
     @login_manager.user_loader
     def load_user(user):
-        return db_session.query(User).get(user.id)
-
+        return db_session.query(User).get(int(user))
+    
+    # Set the unauthorized handler
+    @login_manager.unauthorized_handler
+    def unauthorized_callback():
+        flash('You must be logged in to view that page.', 'warning')
+        return redirect(url_for('auth.login'))
 
     @auth_bp.route('/login', methods=['GET', 'POST'])
     def login():
         form = LoginForm()
         if request.method == 'POST':
             if form.validate_on_submit():
-                print('Validated')
                 user = db_session.query(User).filter_by(email=form.email.data).first()
                 if user and check_password_hash(user.password_hash, form.password.data):
-                    print('Trying to Login -- :', user)
                     if login_user(user):
-                        print('Login successful!')
                         flash('Login successful!', 'success')
                         return redirect(url_for('dashboard'))
                     else:
@@ -64,7 +66,7 @@ def auth_blueprint(login_manager,db_session):
         return render_template('signup.html', form=form)
 
     @auth_bp.route('/logout')
-    # @login_required
+    @login_required
     def logout():
         logout_user()
         return redirect(url_for('home'))

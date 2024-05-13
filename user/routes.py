@@ -6,6 +6,7 @@ from forms import DataForm, UploadForm
 from werkzeug.utils import secure_filename
 from flask_paginate import Pagination, get_page_args
 from utils.functions import predict, analyze_market
+from flask_login import LoginManager, login_required
 from user.common import get_logged_in_user, get_trained_model,get_and_load_user_data
 from flask import Blueprint, request, render_template, jsonify, flash, redirect, url_for
 
@@ -15,6 +16,7 @@ def user_blueprint(app, db_session):
     user_bp = Blueprint('user', __name__)
 
     @user_bp.route('/user/markets', methods=['GET'])
+    @login_required
     def get_markets():
         user = get_logged_in_user(db_session)
         data = db_session.query(Data).filter_by(user_id=user.id).all()
@@ -29,6 +31,7 @@ def user_blueprint(app, db_session):
 
     # API route to fetch list of categories
     @user_bp.route('/user/categories', methods=['GET'])
+    @login_required
     def get_categories():
         user = get_logged_in_user(db_session)
         data = db_session.query(Data).filter_by(user_id=user.id).all()
@@ -42,6 +45,7 @@ def user_blueprint(app, db_session):
     
     # Get User Data Currency
     @user_bp.route('/user/data/currency', methods=['GET'])
+    @login_required
     def get_currency():
         user = get_logged_in_user(db_session)
         data = db_session.query(Data).filter_by(user_id=user.id).first()
@@ -51,7 +55,7 @@ def user_blueprint(app, db_session):
             return jsonify({'error': 'Data retrieving currency'})
 
     @user_bp.route('/user/data', methods=['GET'])
-    # @login_required
+    @login_required
     def data():
         # user = current_user
         user = get_logged_in_user(db_session)
@@ -67,6 +71,7 @@ def user_blueprint(app, db_session):
 
     #Upload User Data
     @user_bp.route('/user/data/upload', methods=['GET','POST'])
+    @login_required
     def upload_csv():
         form = UploadForm()
         if form.validate_on_submit():
@@ -101,7 +106,7 @@ def user_blueprint(app, db_session):
 
     # Route for User input
     @user_bp.route('/user/data/input', methods=['GET','POST'])
-    # @login_required
+    @login_required
     def add_data():
         form = DataForm()
         if request.method == 'POST':
@@ -128,7 +133,7 @@ def user_blueprint(app, db_session):
 
     # User data prediction route
     @user_bp.route('/user/data/prediction', methods=['GET','POST'])
-    # @login_required
+    @login_required
     def user_data_prediction():
         if request.method == 'POST':
             # Get the input data from the request
@@ -151,7 +156,7 @@ def user_blueprint(app, db_session):
 
     #User data visualization route
     @user_bp.route('/user/data/visualization', methods=['GET'])
-    # @login_required
+    @login_required
     def user_data_visualization():
         data = get_and_load_user_data(db_session)
         # Check if data is loaded and processed successfully
@@ -164,7 +169,7 @@ def user_blueprint(app, db_session):
 
     # User Market analysis route
     @user_bp.route('/user/data/analysis', methods=['GET', 'POST'])
-    # @login_required
+    @login_required
     def user_data_analysis():
         if request.method == "POST":
             data = get_and_load_user_data(db_session)
