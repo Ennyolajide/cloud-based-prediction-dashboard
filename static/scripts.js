@@ -1,7 +1,12 @@
 
-$(document).ready(function () {
-    // Get the current path
-    const currentPath = window.location.pathname;
-    // Find the navigation link with matching href and add 'active' class
-    $('.navbar-nav .nav-link[href="' + currentPath + '"]').addClass('active');
-});
+    var navbarCollapse = document.getElementById('navbarNav');
+    var navbarToggle = document.querySelector('.navbar-toggler');
+
+    navbarToggle.addEventListener('click', function() {
+        if (navbarCollapse.classList.contains('show')) {
+            navbarCollapse.classList.remove('show');
+        } else {
+            navbarCollapse.classList.add('show');
+        }
+    });
+
