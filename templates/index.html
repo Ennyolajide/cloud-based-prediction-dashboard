@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Cloud-Based AI-Driven Pricing Intelligence Dashboard</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='indexx.css') }}">
+</head>
+
+<body>
+    <header class="header bg-dark text-white text-center py-3">
+        <div class="container">
+            <h1>A Cloud-Based AI-Driven Pricing Intelligence Dashboard</h1>
+            <h2>For Simplified SME Financial Management</h2>
+            <div class="d-flex justify-content-center mt-3">
+                <a href="{{ url_for('auth.signup') }}" class="btn btn-primary me-2" id="signup">Sign Up</a>
+                <a href="{{ url_for('auth.login') }}" class="btn btn-secondary" id="login">Log In</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="intro container py-5">
+            <div class="row">
+                <div class="col-lg-6">
+                    <img src="{{ url_for('static', filename='images/cloud-2.jpeg') }}" alt="Dashboard Image"
+                        class="img-fluid mb-4">
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <h3>Welcome to Our Dashboard</h3>
+                        <p class="mx-2">
+                            Our cloud-based, AI-driven dashboard is designed to simplify financial management for Small
+                            and Medium Enterprises (SMEs).
+                            By leveraging advanced artificial intelligence algorithms, we provide insightful pricing
+                            intelligence that can help drive
+                            your business decisions.
+                        </p>
+                    </div>
+                    <div class="row my-3">
+                        <h3>Features</h3>
+                        <ul class="mx-2">
+                            <li>Real-time pricing data from various markets</li>
+                            <li>AI-powered predictive analytics for future pricing trends</li>
+                            <li>Competitor analysis to understand market dynamics</li>
+                            <li>Simulation environment for testing pricing strategies</li>
+                            <li>Easy-to-use, user-friendly interface</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact container">
+  
+        </section>
+    </main>
+    <footer class="container text-center py-3">
+        <p>© 2024 Our Dashboard. All rights reserved.</p>
+    </footer>
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

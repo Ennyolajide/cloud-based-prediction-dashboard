@@ -1,0 +1,98 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+<body>
+  {% include 'header.html' %}
+  <div class="container mt-2">
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <h3 class="text-center text-info my-3">About Our Dashboard</h3>
+        <p class="text-primary text-center">This is a simple Flask Cloud-Based AI-Driven Pricing Intelligence Dashboard for Simplified SME Financial Management.</p>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-12">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">
+          {{ message }}
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+
+    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{{ url_for('static', filename='images/cloud-1.jpeg') }}" class="d-block w-100" alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{{ url_for('static', filename='images/cloud-2.jpeg') }}" class="d-block w-100" alt="...">
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <h3 class="text-center text-info my-3">Features</h3>
+      </div>
+      <div class="col-lg-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Real-time Pricing Data</h5>
+            <p class="card-text">Get real-time pricing data from various markets.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">AI-powered Predictive Analytics</h5>
+            <p class="card-text">Use AI-powered predictive analytics for future pricing trends.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Competitor Analysis</h5>
+            <p class="card-text">Perform competitor analysis to understand market dynamics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-3">
+      <div class="col-lg-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">Simulation Environment</h5>
+            <p class="card-text">Use the simulation environment for testing pricing strategies.</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="card text-center">
+          <div class="card-body">
+            <h5 class="card-title">User-friendly Interface</h5>
+            <p class="card-text">Enjoy an easy-to-use, user-friendly interface.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Your custom JS scripts -->
+  <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+
+</html>

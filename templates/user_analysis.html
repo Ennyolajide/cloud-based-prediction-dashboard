@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+
+<body>
+
+    <!-- Header -->
+    {% include 'header.html' %}
+
+    <div class="container mt-2">
+        <div class="container">
+            <div class="row">
+                <h1 class="text-success text-center mt-2">Analysis</h1>
+            </div>
+            <div class="row">
+                <div class="col-md-12 ">
+                    <!-- Loader GIF -->
+                    <div id="loader" class="text-center">
+                        <img src="{{ url_for('static', filename='loader.gif') }}" alt="Loading...">
+                    </div>
+
+                    <!-- Display average price chart -->
+
+
+                    <!-- Dropdown menu to select plot -->
+
+                    <div id="plot_select_form" class="row mb-3" style="display: none;">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">Select Plot</label>
+                        <div class="col-sm-10">
+                            <select id="plotSelect" class="form-select">
+                                <option value="average_price_chart">Average Price</option>
+                                <option value="market_concentration">Market Concentration</option>
+                                <option value="price_distribution">Price Distribution</option>
+                                <option value="price_trends_over_time">Price Trends Over Time</option>
+                                <option value="price_variability">Price Variability</option>
+                                <option value="seasonal_patterns">Seasonal Patterns</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- Display Selected Plot -->
+                    <div id="plot-container" class="mt-5" style="display: none;">
+                        <img id="selected-plot" src="" alt="" class="img-fluid">
+                    </div>
+                    <div id="average-price-chart" class="mt-5" style="display: none; max-width: 100%; height: auto;">
+                        <p class="text-center text-info">Average Price By Category</p>
+                        <canvas id="average-price-chart-canvas" class="img-fluid"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-..."></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-..."></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-..." crossorigin="anonymous"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        // Fetch market analysis data on page load
+        $(document).ready(function () {
+            $.post("{{ url_for('user.user_data_analysis') }}", function (data) {
+                // Hide loader
+                $('#loader').hide();
+
+                // Display average price chart
+                const averagePriceChartCanvas = document.getElementById('average-price-chart-canvas').getContext('2d');
+                const categories = Object.keys(data.market_analysis.average_price_by_category);
+                const averagePrices = Object.values(data.market_analysis.average_price_by_category);
+                new Chart(averagePriceChartCanvas, {
+                    type: 'bar',
+                    data: {
+                        labels: categories,
+                        datasets: [{
+                            label: 'Average Price',
+                            data: averagePrices,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+                $('#average-price-chart').show();
+
+                // Populate dropdown menu with plot options
+                const plotSelect = $('#plotSelect');
+                $('#plot_select_form').show();
+            });
+        });
+
+        // Change event listener for plot dropdown
+        $('#plotSelect').change(function () {
+            if ($(this).val() === 'average_price_chart') {
+                $('#average-price-chart').show();
+                $('#plot-container').hide();
+                return;
+            } else {
+                const selectedPlotPath = `/get_image/${$(this).val()}.png`;
+                $('#selected-plot').attr('src', selectedPlotPath);
+                $('#average-price-chart').hide();
+                $('#plot-container').show();
+            }
+        });
+    </script>
+</body>
+
+</html>

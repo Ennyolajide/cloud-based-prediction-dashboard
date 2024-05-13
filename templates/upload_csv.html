@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="container">
+
+        <div class="container">
+            <div class="row mb-3">
+                <div class="col-4">
+                    <h2 class="mt-5">CSV Upload</h2>
+                </div>
+                <div class="col-8">
+
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+
+                </div>
+            </div>
+            <div class="row">
+                <form action="{{ url_for('user.upload_csv') }}" method="post" enctype="multipart/form-data">
+                    {{ form.csrf_token }}
+                    <div class="mb-3">
+                        <div class="row">
+                            <label for="data" class="form-label">Choose CSV file:</label>
+                            <div class="col-9">
+                                <input type="file" class="form-control" id="data" name="data" accept=".csv" required>
+                                {% if form.data.errors %}
+                                <ul class="errors">
+                                    {% for error in form.data.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                            </div>
+                            <div class="col-3">
+                                <button type="submit" class="btn btn-primary">Upload</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap JS bundle (Popper.js included) -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+    <!-- Your custom JS scripts -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+
+</html>
