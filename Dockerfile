@@ -77,5 +77,5 @@ EXPOSE 5000
 ENV FLASK_APP=app.py
 
 # Run app.py when the container launches
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "--timeout 60", "app:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app:app"]
 # CMD ["flask", "run", "--help", "--host", "0.0.0.0", "--port", "5001"]
