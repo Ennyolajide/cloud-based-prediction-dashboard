@@ -55,9 +55,7 @@ p {
 
 
 #predictionResult > p {
-    font-size: 20px;
-    font-weight: bold;
-    color: #a84bac
+    font-size: 16px;
 }
 
 .errors > li {
